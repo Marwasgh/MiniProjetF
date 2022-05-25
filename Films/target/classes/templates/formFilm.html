@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="template">     
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+<meta charset="utf-8">
+<title>Gestion des Films</title>
+</head>
+<body>
+ <div layout:fragment="Mycontent">
+<div class="container mt-5">
+<div class="card">
+<div class="card-header" th:if="${mode=='new'}"> Ajout des Films </div>
+<div class="card-header" th:if="${mode=='edit'}">Modification des Films</div>
+
+  	<div class="card-body">
+  	
+	<form th:action="@{saveFilm}" method="post">
+		<div class="form-group">
+			<label class="control-label" hidden>ID Film :</label> 
+		       <input type="hidden" name="idFilm" class="form-control" th:value="${film.idFilm}"  />
+		</div>					
+		<div class="form-group">
+			<label class="control-label">Nom Film :</label> 
+			 <input type="text" name="nomFilm" class="form-control" th:value="${film.nomFilm}"  />
+			<span th:errors= ${film.nomFilm} class="text-danger"> </span>	 
+		</div>
+		<div class="form-group">
+			<label class="control-label">Duree Film :</label> 
+		    <input type="text" name="dureeFilm" class="form-control" th:value="${film.dureeFilm}" />
+		    <span th:errors=${film.dureeFilm} class="text-danger"> </span> 
+		</div>
+		<div class="form-group">
+			<label class="control-label">date Sortie :</label> 
+			<input type="date" name="dateSortie" class="form-control"  th:value="${film.dateSortie}"/>
+			 <span th:errors=${film.dateSortie} class="text-danger"> </span> 
+		</div>
+		
+		
+<div class="form-group">
+								<label class="control-label">Genre :</label>
+								<select type="text" name="genre" class="form-control"
+									th:value="${film.genre.idGenre}">
+									<option th:each="g:${genres}" th:if="${mode=='edit'}" th:value="${g.idGenre}"
+										th:text="${g.nomGenre}" th:selected="${ g.idGenre==film.genre.idGenre}">
+									</option>
+									<option th:each="g:${genres}" th:if="${mode=='new'}" th:value="${g.idGenre}"
+										th:text="${g.nomGenre}"></option>
+								</select>
+							</div>
+		
+<button type="submit" class="btn btn-primary" th:if="${mode=='new'}">Ajouter</button>
+<button type="submit" class="btn btn-primary" th:if="${mode=='edit'}">Modifier</button>
+		</div>
+		</form>
+		</div>
+		</div>
+</div>
+</div>
+</body>
+</html>
